@@ -9,7 +9,7 @@ $form.submit(function (event) {
         number: $('#card-number').val(),
         cvc: $('#card-cvc').val(),
         exp_month: $('#card-expiry-month').val(),
-        exp_year: $('#card-expiry-year').val(),
+        exp_year: $('#card-expiry-year').val(), 
         name: $('#card-name').val()
     }, stripeResponseHandler);
     return false;
