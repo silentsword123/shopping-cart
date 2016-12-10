@@ -14,6 +14,7 @@ var MongoStore = require('connect-mongo')(session);
 
 var routes = require('./routes/index');
 var userRoutes = require('./routes/user');
+var productRoutes=require('./routes/product');
 var app = express();
 
 mongoose.connect('localhost: 27017/shopping');
@@ -50,6 +51,8 @@ app.use(function (req, res, next) {
 });
 
 app.use('/user', userRoutes);
+app.use('/product',productRoutes);
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
@@ -82,5 +85,5 @@ app.use(function (err, req, res, next) {
     error: {}
   });
 });
-
+app.listen(3000);
 module.exports = app;
