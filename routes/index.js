@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Cart = require('../models/cart');
-
+const xss=require("xss");
 var Product = require('../models/product');
 var Order = require('../models/order');
 
@@ -67,6 +67,18 @@ router.get('/checkout', isLoggedIn, function(req, res, next) {
     var errMsg = req.flash('error')[0];
     res.render('shop/checkout', {total: cart.totalPrice, errMsg: errMsg, noError: !errMsg});
 });
+router.get('/search',(req,res)=>{
+    //var keyword=xss(req.query.search);
+    Product.find({$or:[{title:new RegExp(req.query.search,'i')},{label:new RegExp(req.query.search,'i')}]}).then((prodList)=>{
+        if(prodList.length>0){
+            res.render("product/prodByLabel",{products:prodList});
+        }
+        else{
+            //res.send("no product");
+            res.render('error',{message:"No product found",error:null});
+        }
+    })
+})
 
 router.post('/checkout', isLoggedIn, function(req, res, next) {
     if (!req.session.cart) {
@@ -112,3 +124,6 @@ function isLoggedIn(req, res, next) {
     req.session.oldUrl = req.url;
     res.redirect('/user/signin');
 }
+function escapeRegex(text)  {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
