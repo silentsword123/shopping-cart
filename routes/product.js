@@ -45,12 +45,9 @@ router.get('/:id',(req,res)=>{
 });
 router.get('/label/:id',(req,res)=>{
     Prod.find({label:req.params.id}).then((prodList)=>{
-       //res.json(prodList);
-         res.render('product/prodByLabel',{products:prodList});
+        //res.json(prodList);
+        res.render('product/prodByLabel',{products:prodList});
     })
 });
-
-
-
 module.exports = router;
 
